@@ -1,0 +1,11 @@
+version: 0.1
+phases:
+    install:
+        commands:
+            - npm install
+    build:
+        commands:
+            - npm run $SCRIPT_NAME
+    post_build:
+        commands:
+            - aws s3 sync dist s3://$BUCKET_NAME

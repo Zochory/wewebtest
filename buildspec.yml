@@ -1,0 +1,18 @@
+version: 0.1
+
+phases:
+    install:
+        commands:
+            - mv /build/node_modules $CODEBUILD_SRC_DIR
+            - npm install
+    pre_build:
+        commands:
+            - mkdir exports
+            - zip -qr ./exports/$RAW_CODE_ZIP_NAME ./* ./.env.front.prod -x ./dist/**\* ./node_modules/**\* ./exports/**\* ./dist ./node_modules ./exports
+            - aws s3 sync exports s3://$EXPORT_SYNC_PATH
+    build:
+        commands:
+            - npm run $SCRIPT_NAME
+    post_build:
+        commands:
+            - aws s3 sync dist s3://$BUILD_SYNC_PATH

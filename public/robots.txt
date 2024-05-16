@@ -1,0 +1,3 @@
+User-agent:*
+Disallow:
+Sitemap: https://app.qredence.ai/sitemap.xml
